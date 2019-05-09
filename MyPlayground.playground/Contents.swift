@@ -39,4 +39,21 @@ let random = RandomNumberGenerator()
 let genNum = random(0)
 print(genNum)
 
+//Transforming and unwrapping dictionary values with compactMapValues()
+let people = [
+    "Paul": 38,
+    "Sophie": 8,
+    "Charlotte": 5,
+    "William": nil
+]
+let knownAges = people.compactMapValues { $0 }
+print(knownAges)
+
+//isMultiple
+let num = 34
+if num.isMultiple(of: 2) {
+    print("num is even")
+} else {
+    print("num is odd")
+}
 
