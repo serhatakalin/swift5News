@@ -1,7 +1,6 @@
 import UIKit
 
-//Enhancing String Literals Delimiters to Support Raw Text
-//Pure string
+//NEWS: Enhancing String Literals Delimiters to Support Raw Text
 
 let val = 5.0
 let sentence  = #"Hello, i am "Serhat"."#
@@ -11,7 +10,7 @@ print(sentence)
 print(sentence2)
 print(sentence3)
 
-//Standart Result Type
+//NEWS: Standart Result Type
 enum gas: Error {
     case full
 }
@@ -26,7 +25,7 @@ let result = gasLimit(count: 5)
 let end = result.map({"Products \($0)"})
 print(end)
 
-//Dynamic Callable
+//NEWS: Dynamic Callable
 @dynamicCallable
 struct RandomNumberGenerator {
     func dynamicallyCall(withKeywordArguments args: KeyValuePairs<String, Int>) -> Double {
@@ -39,7 +38,22 @@ let random = RandomNumberGenerator()
 let genNum = random(0)
 print(genNum)
 
-//Transforming and unwrapping dictionary values with compactMapValues()
+@dynamicCallable
+class Customer {
+    func getCustomerWithId(_ id:Int) -> Int {
+        return id + 999
+    }
+    
+    func dynamicallyCall(withArguments id: [Int]) -> Int {
+        return getCustomerWithId(id[0])
+    }
+}
+
+let customer = Customer()
+let customerResult = customer(1) // 1000
+print(customerResult)
+
+//NEWS: Transforming and unwrapping dictionary values with compactMapValues()
 let people = [
     "Paul": 38,
     "Sophie": 8,
@@ -49,7 +63,7 @@ let people = [
 let knownAges = people.compactMapValues { $0 }
 print(knownAges)
 
-//isMultiple
+//NEWS: isMultiple
 let num = 34
 if num.isMultiple(of: 2) {
     print("num is even")
@@ -57,7 +71,7 @@ if num.isMultiple(of: 2) {
     print("num is odd")
 }
 
-//string interpolation
+//NEWS: String Interpolation
 struct Product {
     var name:String
     var barcode:String
@@ -81,7 +95,7 @@ print("Product Details: \(productObject)")
 let x = 60
 print("\(x, val: 2)") // 62
 
-//@unknown default in enums
+//NEWS: @unknown default in Enums
 enum animals {
     case cat
     case dog
@@ -94,4 +108,32 @@ switch animalsObj {
 case .cat: print("cat")
 case .dog: print("dog")
 @unknown default: print("unknown")
+}
+
+//NEWS: try? and Nested Optionals
+enum UserError: Error {
+    case loadFailed
+}
+
+struct User {
+    
+    var id: Int
+    
+    init?(id: Int) {
+        if id < 1 { return nil }
+        self.id = id
+    }
+    
+    func getUserDetails() throws -> String {
+        guard id != 1 else { throw UserError.loadFailed }
+        return "User Details \(self.id)"
+    }
+}
+
+let user = User(id: 10)
+
+if let details = try? user?.getUserDetails() {
+    print(details) //user details
+} else {
+    print("@Failed id")
 }
